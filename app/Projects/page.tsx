@@ -13,7 +13,7 @@ const Projects = () => {
         <div style={{ display: 'flex', gap: '20px', flex: 1, justifyContent: 'center' }}>
             <Link href="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
             <Link href="/Projects" style={{ color: '#fff', textDecoration: 'none' }}>Projects</Link>
-            <Link href="/Contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact</Link>
+            <Link href="/contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact</Link>
         </div>
       </nav>
 
