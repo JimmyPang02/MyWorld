@@ -5,7 +5,7 @@ import { FaEnvelope, FaGithub, FaTwitter, FaGlobe, FaPenFancy } from 'react-icon
 import { FaWeixin } from 'react-icons/fa'; // 新增微信图标
 import Image from 'next/image'; // 确保导入 Image 组件
 
-const Contact = () => {
+const contact = () => {
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#111', color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div style={{ width: '30%', padding: '20px', background: '#333', borderRadius: '10px' }}>
@@ -16,7 +16,7 @@ const Contact = () => {
         <div style={{ display: 'flex', gap: '20px', flex: 1, justifyContent: 'center' }}>
             <Link href="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
             <Link href="/Projects" style={{ color: '#fff', textDecoration: 'none' }}>Projects</Link>
-            <Link href="/Contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact</Link>
+            <Link href="/contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact</Link>
         </div>
         </nav>
 
@@ -64,4 +64,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default contact;
