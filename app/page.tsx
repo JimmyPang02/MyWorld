@@ -1,101 +1,110 @@
-import Image from "next/image";
+'use client';
+
+import { useState,useRef} from 'react';
+import { Canvas } from '@react-three/fiber';
+import { useLoader } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from '@react-three/drei'; // Import OrbitControls
+import { FaArrowRight, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'; // Import the icons
+import { motion } from 'framer-motion'; // Import framer-motion for animations
+import Link from 'next/link'; // Import the Link component
+
+const Model = () => {
+  const gltf = useLoader(GLTFLoader, '/models/goatboy.glb');
+  return <primitive object={gltf.scene} />;
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [showMain, setShowMain] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+  const handleExploreClick = () => {
+    setShowMain(true);
+      if (audioRef.current) {
+    audioRef.current.play().catch(error => {
+      console.error("Autoplay was prevented:", error);
+    });
+  }
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !audioRef.current.muted;
+      setIsMuted(audioRef.current.muted);
+    }
+  };
+
+  return (
+    <div style={{ width: '100vw', height: '100vh', background: '#111', position: 'relative' }}>
+      <audio ref={audioRef} src="/audio/KanyeWestMoon.mp3" autoPlay loop />
+      {!showMain ? (
+        <>
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: '#fff', textAlign: 'center', zIndex: 10 }}>
+            <h1 style={{ fontSize: '72px', margin: 0 }}>Welcome to My World!</h1>
+            <p style={{ fontSize: '32px', margin: '10px 0' }}>I'm ShanYang🐐, <br></br>an AI Phd Student & Full Stack Developer</p>
+            <motion.button 
+              onClick={handleExploreClick} 
+              style={{ fontSize: '24px', padding: '10px 20px', marginTop: '20px', cursor: 'pointer', backgroundColor: '#007BFF', color: 'white', border: 'none', borderRadius: '5px', display: 'inline-flex', alignItems: 'center' }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              Explore My World <FaArrowRight style={{ marginLeft: '10px' }} />
+            </motion.button>
+          </div>
+        </> 
+      ) : (
+        <>
+          {/* Navigation Bar */}
+          <nav style={{ position: 'absolute', top: 0, left: 0, width: '100%', padding: '20px', zIndex: 10, color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '20px', flex: 1, justifyContent: 'center' }}>
+              <Link href="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
+              <Link href="/Projects" style={{ color: '#fff', textDecoration: 'none' }}>Projects</Link>
+              <Link href="/Contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact</Link>
+            </div>
+            <button onClick={toggleMute} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#fff' }}>
+              {isMuted ? <FaVolumeMute size={24} /> : <FaVolumeUp size={24} />}
+            </button>
+          </nav>
+
+          <Canvas camera={{ position: [0, 0, 5] }} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+            <ambientLight />
+            <pointLight position={[10, 10, 10]} />
+            <Model />
+            <OrbitControls /> {/* Add OrbitControls */}
+          </Canvas>
+
+          {/* <div style={{ position: 'absolute', bottom: 20, left: 20, zIndex: 10 }}>
+            <video src="/videos/your-video.mp4" controls width="300" height="200" />
+          </div> */}
+
+          {/* About Me */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ position: 'absolute', top: '20%', left: '5%', color: '#fff', zIndex: 10 }}>
+            <h2>👋 Quick Introduction</h2>
+            <p>Hello, I'm Goat🐐, looking forward to becoming friends with you~</p>
+            <p>Currently a first-year joint PhD student at Zhejiang University & Shanghai AI Institute</p>
+            <p>02 | ENTJ/P | AI Algorithm Research | Full Stack Developer | Security</p>
+            <p>Visual Perception | Multimodal | AIGC | Embodied Intelligence</p>
+          </motion.div>
+
+          {/* What I'm Doing Recently */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} style={{ position: 'absolute', top: '60%', left: '5%', color: '#fff', zIndex: 10 }}>
+            <h2>🤯 What I'm Doing Recently</h2>
+            <p>Thinking about choosing a PhD advisor and research direction</p>
+            <p>Launching Hypatia product</p>
+            <p>Exploring AI startup directions</p>
+          </motion.div>
+
+          {/* What I'm Good At */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }} style={{ position: 'absolute', top: '80%', left: '5%', color: '#fff', zIndex: 10 }}>
+            <h2>😴 What I'm Good At</h2>
+            <p>AI Algorithms, Front-end Development, Back-end Development, LLM/AI Agent Engineering, Web Security, AI Security, AI Product Usage</p>
+            <p>New Media Operations, Interviews, Content, Design, Editing</p>
+          </motion.div>
+        </>
+      )}
     </div>
   );
 }
