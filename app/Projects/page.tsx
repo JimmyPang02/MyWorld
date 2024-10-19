@@ -17,7 +17,7 @@ const Projects = () => {
       </nav>
 
       {/* Project List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '20px', marginTop: '60px' }}>
                 {/* Project 1 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: '#333', padding: '20px', borderRadius: '10px' }}>
           <FaLightbulb size={48} style={{ color: '#ffcc00' }} />
