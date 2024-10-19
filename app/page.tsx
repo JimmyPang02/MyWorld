@@ -6,7 +6,7 @@ import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from '@react-three/drei'; // Import OrbitControls
 import { FaArrowRight, FaVolumeMute, FaVolumeUp, FaComment } from 'react-icons/fa'; // Import the icons
-import { motion } from 'framer-motion'; // Import framer-motion for animations
+import { AnimatePresence, motion } from 'framer-motion'; // Import framer-motion for animations
 import Link from 'next/link'; // Import the Link component
 import OpenAI from "openai";
 
@@ -39,6 +39,36 @@ const generateAudioResponse = async (prompt: string) => {
 
   return response.choices[0].message.audio.data;
 };
+
+const ExpandableSection = ({ title, children, style }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div 
+      style={{ ...style, color: '#fff', zIndex: 10 }}
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.5 }}
+    >
+      <h2 onClick={() => setIsExpanded(!isExpanded)} style={{ cursor: 'pointer' }}>
+        {title}
+      </h2>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
 
 export default function Home() {
   const [showMain, setShowMain] = useState(false);
@@ -83,7 +113,7 @@ export default function Home() {
       }
     }
   };
-
+  
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#111', position: 'relative' }}>
       <audio ref={audioRef} src="/audio/KanyeWestMoon.mp3" autoPlay loop />
@@ -125,29 +155,58 @@ export default function Home() {
             <OrbitControls /> {/* Add OrbitControls */}
           </Canvas>
 
-          {/* About Me */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ position: 'absolute', top: '20%', left: '5%', color: '#fff', zIndex: 10 }}>
-            <h2>👋 Quick Introduction</h2>
-            <p>Hello, I&apos;m Goat🐐, looking forward to becoming friends with you~</p>
-            <p>Currently a first-year joint PhD student at Zhejiang University & Shanghai AI Institute</p>
-            <p>02 | ENTJ/P | AI Algorithm Research | Full Stack Developer | Security</p>
-            <p>Visual Perception | Multimodal | AIGC | Embodied Intelligence</p>
-          </motion.div>
 
-          {/* What I'm Doing Recently */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} style={{ position: 'absolute', top: '60%', left: '5%', color: '#fff', zIndex: 10 }}>
-            <h2>🤯 What I&apos;m Doing Recently</h2>
-            <p>Thinking about choosing a PhD advisor and research direction</p>
-            <p>Launching Hypatia product</p>
-            <p>Exploring AI startup directions</p>
-          </motion.div>
+          {/* Quick Introduction & My Perspective */}
+          <ExpandableSection title="👋 Quick Introduction" style={{ position: 'absolute', top: '10%', left: '5%' }}>
+            <p>目前是 [浙江大学 & 上海某AI学院 联培博士 一年级]</p>
+            <p>02年 | ENTJ/P | AI算法研究 | 全栈开发 | Security</p>
+            <p>视觉感知 | 多模态 | AIGC | 具身智能</p>
+            <p>（至少）有三个我：</p>
+            <ul style={{ listStyleType: 'circle', marginLeft: '20px' }}>
+              <li>追求自洽，做有自我价值感的事情😇</li>
+              <li>追求卓越，做有影响力的事情💥</li>
+              <li>追求个性，冒险探索新鲜事物🙋</li>
+            </ul>
+            <p>未来想成为：</p>
+            <ul style={{ listStyleType: 'circle', marginLeft: '20px' }}>
+              <li>professor</li>
+              <li>startup founder</li>
+            </ul>
+          </ExpandableSection>
 
           {/* What I'm Good At */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }} style={{ position: 'absolute', top: '80%', left: '5%', color: '#fff', zIndex: 10 }}>
-            <h2>😴 What I&apos;m Good At</h2>
-            <p>AI Algorithms, Front-end Development, Back-end Development, LLM/AI Agent Engineering, Web Security, AI Security, AI Product Usage</p>
-            <p>New Media Operations, Interviews, Content, Design, Editing</p>
-          </motion.div>
+          <ExpandableSection title="😴 What I&apos;m Good At" style={{ position: 'absolute', top: '10%', right: '5%' }}>
+            <ul>
+              <li>AI算法（偏视觉）</li>
+              <li>全栈开发（web、app、小程序等）</li>
+              <li>LLM/AI Agent工程开发</li>
+              <li>Web安全，AI安全</li>
+              <li>各种AI产品的使用</li>
+              <li>运营、采访、内容、设计、剪辑(浅)</li>
+            </ul>
+          </ExpandableSection>
+
+          {/* My Life */}
+          <ExpandableSection title="🤩 My Life" style={{ position: 'absolute', bottom: '10%', left: '5%' }}>
+            <ul>
+              <li>有感情很好的女朋友</li>
+              <li>喜欢旅行，和不同的人交流，听故事</li>
+              <li>说唱爱好者，纯度很高的哈人，经常去livehouse看演出</li>
+              <li>健身入门中，想变猛男</li>
+              <li>飞盘、篮球、足球、台球、……</li>
+              <li>桌游（德扑就是玩梭哈）</li>
+              <li>喜欢玲娜贝儿（治愈）</li>
+            </ul>
+          </ExpandableSection>
+
+          {/* What I'm Doing Recently */}
+          <ExpandableSection title="🤯 What I&apos;m Doing Recently" style={{ position: 'absolute', bottom: '10%', right: '5%' }}>
+            <ul>
+              <li>选择博士阶段的导师和研究方向🤔</li>
+              <li>把hypatia产品做上线</li>
+              <li>寻找AI创业方向</li>
+            </ul>
+          </ExpandableSection>
 
           {/* Siri-like Response Icon */}
           <motion.div 
