@@ -1,6 +1,6 @@
 'use client';
 
-import { useState,useRef} from 'react';
+import { useState, useRef} from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -19,14 +19,13 @@ export default function Home() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-
   const handleExploreClick = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(error => {
+        console.error("Autoplay was prevented:", error);
+      });
+    }
     setShowMain(true);
-      if (audioRef.current) {
-    audioRef.current.play().catch(error => {
-      console.error("Autoplay was prevented:", error);
-    });
-  }
   };
 
   const toggleMute = () => {

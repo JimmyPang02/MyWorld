@@ -1,5 +1,7 @@
 import './globals.css';
 import { ReactNode } from 'react';
+// import AudioPlayer from './components/AudioPlayer'; // Import the AudioPlayer component
+// import NavBar from './components/NavBar'; // Import the NavBar component
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +11,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="description" content="彭山羊的自我介绍" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+      </body>
     </html>
   );
 }
