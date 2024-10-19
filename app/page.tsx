@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from '@react-three/drei'; // Import OrbitControls
 import { FaArrowRight, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'; // Import the icons
 import { motion } from 'framer-motion'; // Import framer-motion for animations
