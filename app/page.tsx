@@ -158,7 +158,7 @@ export default function Home() {
 
           {/* Quick Introduction & My Perspective */}
           <ExpandableSection title="👋 Quick Introduction" style={{ position: 'absolute', top: '10%', left: '5%' }}>
-            <p>目前是 [浙江大学 & 上海某AI学院 联培博士 一年级]</p>
+            <p>目前是 [浙江大学 & 国家AI学院(上海) 联培博士 一年级]</p>
             <p>02年 | ENTJ/P | AI算法研究 | 全栈开发 | Security</p>
             <p>视觉感知 | 多模态 | AIGC | 具身智能</p>
             <p>（至少）有三个我：</p>
