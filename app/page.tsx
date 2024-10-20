@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from '@react-three/drei'; // Import OrbitControls
-import { FaArrowRight, FaVolumeMute, FaVolumeUp, FaComment } from 'react-icons/fa'; // Import the icons
+import { FaArrowRight, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'; // Import the icons
 import { AnimatePresence, motion } from 'framer-motion'; // Import framer-motion for animations
 import Link from 'next/link'; // Import the Link component
 import OpenAI from "openai";
@@ -97,7 +97,6 @@ export default function Home() {
 
   const handleSendMessage = async () => {
     if (message.trim() !== '') {
-      // setIsResponding(true);
       try {
         const audioData = await generateAudioResponse(message);
         if (responseAudioRef.current) {
@@ -108,9 +107,15 @@ export default function Home() {
         }
       } catch (error) {
         console.error("Error generating audio response:", error);
-      } finally {
-        // setIsResponding(false);
       }
+    }
+  };
+  
+  const handleStopAudio = () => {
+    if (responseAudioRef.current) {
+      responseAudioRef.current.pause();
+      responseAudioRef.current.currentTime = 0;
+      setIsAudioPlaying(false);
     }
   };
   
@@ -209,35 +214,43 @@ export default function Home() {
           </ExpandableSection>
 
           {/* Siri-like Response Icon */}
-          <motion.div 
+          {/* <motion.div 
             initial={{ opacity: 0 }} 
             animate={{ opacity: isAudioPlaying ? 1 : 0 }} 
             transition={{ duration: 0.5 }} 
             style={{ position: 'absolute', bottom: '10%', right: '5%', color: '#fff', zIndex: 10 }}
           >
             <FaComment size={48} />
-          </motion.div>
+          </motion.div> */}
 
-          {/* Message Input Box */}
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 10 }}>
-            <input 
-              type="text" 
-              value={message} 
-              onChange={(e) => setMessage(e.target.value)} 
-              style={{  width: '300px', padding: '10px', borderRadius: '20px', border: 'none', background: 'rgba(255, 255, 255, 0.1)', color: '#fff'  }} 
-            />
+       {/* Message Input Box */}
+       <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 10 }}>
+          <input 
+            type="text" 
+            value={message} 
+            onChange={(e) => setMessage(e.target.value)} 
+            style={{  width: '300px', padding: '10px', borderRadius: '20px', border: 'none', background: 'rgba(255, 255, 255, 0.1)', color: '#fff'  }} 
+          />
+          <button 
+            onClick={() => {
+              handleSendMessage();
+              setMessage(''); // 清空信息框内容
+            }} 
+            style={{ padding: '10px', borderRadius: '50%', border: 'none', backgroundColor: '#007BFF', color: 'white', cursor: 'pointer'  }}
+          >
+            <FaArrowRight size={24} />
+          </button>
+          {isAudioPlaying && (
             <button 
-              onClick={() => {
-                handleSendMessage();
-                setMessage(''); // 清空信息框内容
-              }} 
-              style={{ padding: '10px', borderRadius: '50%', border: 'none', backgroundColor: '#007BFF', color: 'white', cursor: 'pointer'  }}
+              onClick={handleStopAudio} 
+              style={{ padding: '10px', borderRadius: '50%', border: 'none', backgroundColor: '#FF0000', color: 'white', cursor: 'pointer'  }}
             >
-              <FaArrowRight size={24} />
+              <FaVolumeMute size={24} />
             </button>
-          </div>
-        </>
-      )}
-    </div>
+          )}
+        </div>
+      </>
+    )}
+  </div>
   );
 }
