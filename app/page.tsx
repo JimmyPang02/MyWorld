@@ -74,7 +74,7 @@ export default function Home() {
   const [showMain, setShowMain] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [message, setMessage] = useState('');
-  const [setIsResponding] = useState(false);
+
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const responseAudioRef = useRef<HTMLAudioElement>(null);
@@ -97,7 +97,7 @@ export default function Home() {
 
   const handleSendMessage = async () => {
     if (message.trim() !== '') {
-      setIsResponding(true);
+      // setIsResponding(true);
       try {
         const audioData = await generateAudioResponse(message);
         if (responseAudioRef.current) {
@@ -109,7 +109,7 @@ export default function Home() {
       } catch (error) {
         console.error("Error generating audio response:", error);
       } finally {
-        setIsResponding(false);
+        // setIsResponding(false);
       }
     }
   };
