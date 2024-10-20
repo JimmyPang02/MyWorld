@@ -74,7 +74,7 @@ export default function Home() {
   const [showMain, setShowMain] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [message, setMessage] = useState('');
-  const [isResponding, setIsResponding] = useState(false);
+  const [setIsResponding] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const responseAudioRef = useRef<HTMLAudioElement>(null);
