@@ -37,10 +37,10 @@ const generateAudioResponse = async (prompt: string) => {
     ]
   });
 
-  return response.choices[0].message.audio.data;
+  return response.choices[0].message?.audio?.data;
 };
 
-const ExpandableSection = ({ title, children, style }) => {
+const ExpandableSection = ({ title, children, style }: { title: string, children: React.ReactNode, style?: React.CSSProperties }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
