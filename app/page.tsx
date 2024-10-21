@@ -194,7 +194,6 @@ export default function Home() {
           {/* My Life */}
           <ExpandableSection title="🤩 My Life" style={{ position: 'absolute', bottom: '10%', left: '5%' }}>
             <ul>
-              <li>有感情很好的女朋友</li>
               <li>喜欢旅行，和不同的人交流，听故事</li>
               <li>说唱爱好者，纯度很高的哈人，经常去livehouse看演出</li>
               <li>健身入门中，想变猛男</li>
